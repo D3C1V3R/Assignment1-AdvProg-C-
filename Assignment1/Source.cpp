@@ -51,8 +51,10 @@ char MainMenu()
 	cout << "*     (q)uit                    *" << endl;
 	cout << "*********************************" << endl;
 	cout << "Command: ";
+	
 	char Cmd;
-	cin.ignore();
 	cin >> Cmd;
+	cin.ignore();
+	Cmd = tolower(Cmd);
 	return Cmd;
 }
