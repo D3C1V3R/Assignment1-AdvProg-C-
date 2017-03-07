@@ -23,10 +23,7 @@ void Readfile() {
 	if (!File.is_open()) {
 		cout << "Can't find data file!\n";
 		exit;
-	} else if (!File){
-		cout << "File not found" << endl;
-	}
-	else {
+	} else {
 		ifstream File("Students.txt");
 
 		for (string line; getline(File, line); )
