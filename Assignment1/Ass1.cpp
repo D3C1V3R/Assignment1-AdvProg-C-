@@ -23,36 +23,30 @@ void Readfile() {
 	if (!File.is_open()) {
 		cout << "Can't find data file!\n";
 		exit;
-	}
-	else {
+	} else {
+		
 		ifstream File("Students.txt");
 		Record _Record;
-		//memset(_Record.lName, 0, 19); //need to clear char array to check if empty// should probably find an alt method
-		//memset(_Record.fName, 0, 19); //need to clear char array to check if empty// should probably find an alt method
+		
 		for (string line; getline(File, line); ) { // assume each 'loop' is a start of a new 'record'
 			if (line.length() == 8 && stoi(line) >= 1) { //Assume Student ID
 				_Record = Record();
 				cout << endl << "Found student ID" << line << endl;
 				_Record.ID = stoi(line);
-			}
-			else if (!_Record.lName[0]) { //Assume second and third output from string is fname & lname
+			} else if (!_Record.lName[0]) { //Assume second and third output from string is fname & lname
 				strcpy_s(_Record.lName, line.c_str());
 				cout << "Found student lname " << _Record.lName << endl;
-			}
-			else if (!_Record.fName[0]) { //Assume second and third output from string is fname & lname
+			} else if (!_Record.fName[0]) { //Assume second and third output from string is fname & lname
 				strcpy_s(_Record.fName, line.c_str());
 				cout << "Found student fname " << _Record.fName << endl;
-			}
-			else if (line == "PT" || line == "FT") { //Asume fourth output is Status
+			} else if (line == "PT" || line == "FT") { //Asume fourth output is Status
 				if (line == "PT") {
 					_Record.Status = false;
-				}
-				else {
+				} else {
 					_Record.Status = true;
 				}
 				cout << "Found student Status " << _Record.Status << endl;
-			}
-			else if (line.find(" ") && _Record.fName[0] != '\0') { //Assume 5th - 8th subject(s)
+			} else if (line.find(" ") && _Record.fName[0] != '\0') { //Assume 5th - 8th subject(s)
 				for (int i=0; i <= 4; i++) {
 					if (_Record.Subjects[i][0]=='\0') {
 						strcpy_s(_Record.Subjects[i], line.c_str()); //Split result and StoreMark(_Record,value);
