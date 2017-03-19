@@ -2,7 +2,6 @@
 #include <fstream>
 #include <String>
 #include <sstream>
-<<<<<<< HEAD
 #include <iostream>
 #include <string>
 #include <algorithm>
@@ -17,29 +16,13 @@ struct Record {
 	int unsigned ID=0;
 	char lName[19] = {};
 	char fName[19] = {};
-=======
-
-using namespace std;
-
-const int MaxRecords = 200;
-enum _Status { PT, FT };
-
-struct Record {
-	int unsigned ID;
-	char lName[19] = { };
-	char fName[19] = { };
->>>>>>> origin/master
 	_Status Status;
 	int Grade[4];
 	char Subjects[4][11] = {}; //Change size to fit Subject length before submit
 	int Result = 0;
 };
 
-<<<<<<< HEAD
 	Record School[MaxRecords] = {};
-=======
-Record School[MaxRecords] = {};
->>>>>>> origin/master
 
 void Readfile() {
 	cout << "Opening File" << endl;
@@ -53,7 +36,6 @@ void Readfile() {
 		//I should of done this differently and ASSUMED everything was in the correct position/order
 		ifstream File("Students.txt");
 		Record _Record;
-<<<<<<< HEAD
 		int _count=0;
 		for (string line; getline(File, line); ) { // assume each 'loop' is a start of a new 'record'
 			if (line.length() == 8 && stoi(line) >= 1) { //Assume Student ID, terrible way to detect if number
@@ -64,13 +46,6 @@ void Readfile() {
 				}
 				_Record = Record();
 				cout << endl << "Found student ID " << line << endl;
-=======
-
-		for (string line; getline(File, line); ) { // assume each 'loop' is a start of a new 'record'
-			if (line.length() == 8 && stoi(line) >= 1) { //Assume Student ID
-				_Record = Record();
-				cout << endl << "Found student ID" << line << endl;
->>>>>>> origin/master
 				_Record.ID = stoi(line);
 			}
 			else if (!_Record.lName[0]) { //Assume second and third output from string is fname & lname
@@ -96,7 +71,6 @@ void Readfile() {
 				for (int i = 0; i <= 4; i++) {
 					if (_Record.Subjects[i][0] != '\0') {	//check if spot is available
 						continue;
-<<<<<<< HEAD
 					}
 					else {
 						while (getline(iss, temptoken, ' ')) { //for each whitespace 
@@ -106,15 +80,6 @@ void Readfile() {
 							else {	//subject mark second
 								_Record.Grade[i] = stoi(temptoken);
 							}
-=======
-					} else {
-						while (getline(iss, temptoken, ' ')) { //for each whitespace 
-							if (_Record.Subjects[i][0] == '\0') {	//do subject name first
-								strcpy_s(_Record.Subjects[i], temptoken.c_str()); //Split result and StoreMark(_Record,value)
-								}
-							else {	//subject mark second
-								_Record.Grade[i] = stoi(temptoken);							}
->>>>>>> origin/master
 						}
 						cout << "Found Subject " << _Record.Subjects[i] << " with grade " << _Record.Grade[i] << endl;
 						break;
@@ -126,7 +91,6 @@ void Readfile() {
 		School[_count++] = _Record; //needed to add last element to array (bad coder).
 	}
 
-<<<<<<< HEAD
 	int _count = 0;
 	for (int i = 0; i <= MaxRecords; i++) {
 		
@@ -138,17 +102,6 @@ void Readfile() {
 
 	cout << "We found " << _count << " records." << endl;
 
-=======
-	for (int i = 0; i <= MaxRecords; i++) {
-		//if (School[i] == new Recor) {
-		cout << School[i].fName << endl;
-		//}
-	}
-
-
-}
-void StoreMark(Record _Record, int _Value) {
->>>>>>> origin/master
 
 }
 
@@ -197,4 +150,5 @@ void AddRecord() {
 }
 void SearchData() {
 	//create function to display record
+	//implment into ShowRecord()
 }
