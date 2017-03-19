@@ -146,8 +146,8 @@ void ShowRecords() {
 	exit_loop: ;
 }
 void AddRecord() {
-
+	 
 }
 void SearchData() {
-
+	//create function to display record
 }
