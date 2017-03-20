@@ -6,5 +6,6 @@ void Readfile();
 void ShowRecords();
 void AddRecord();
 void SearchData();
+void PrintRecord(int index);
 
 #endif
