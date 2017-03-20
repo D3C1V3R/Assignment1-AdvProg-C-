@@ -4,11 +4,18 @@
 *		Christopher Aldous, 5096054, 21/3/17		    
 ****************************************************/
 
+
 #include <iostream>
 #include <fstream>
-#include <String>
 #include <sstream>
 #include <algorithm>
+#include <cctype>
+#include <string>
+#include <string.h>
+#include <cstring>
+#include "string.h"
+#include <string.h>
+#include <cstdlib>
 
 using namespace std;
 
@@ -17,14 +24,14 @@ int CurrentRecords = 0;
 enum _Status { PT, FT };
 char *StatusTypes[] = { "PT","FT" };
 
-struct Record {
-	int unsigned ID=0;
-	char lName[19] = {};
-	char fName[19] = {};
+ struct Record {
+	int unsigned ID;
+	char lName[19];
+	char fName[19];
 	_Status Status;
-	int Grade[4] = {};	
-	char Subjects[4][11] = {}; //Change size to fit Subject length before submit
-	int Result = 0;
+	int Grade[4];	
+	char Subjects[4][11]; //Change size to fit Subject length before submit
+	int Result0;
 };
 
 	Record School[MaxRecords] = {};
@@ -40,22 +47,22 @@ void Readfile() {
 
 		//I should of done this differently and ASSUMED everything was in the correct position/order
 		ifstream File("Students.txt");
-		Record _Record;
+		Record _Record = {};
 		int _count=0;
 		for (string line; getline(File, line); ) { // assume each 'loop' is a start of a new 'record'
-			if (line.length() == 8 && stoi(line) >= 1) { //Assume Student ID, terrible way to detect if number
+			if (line.length() == 8) { //Assume Student ID, terrible way to detect if number
 				if (_Record.ID && _Record.ID!=0) { //We assume the ID is filled
 					School[_count] = _Record;
 					_count++;
 				}
 				_Record = Record();
-				_Record.ID = stoi(line);
+				_Record.ID = atoi(line.c_str());
 			}
 			else if (!_Record.lName[0]) { //Assume second and third output from string is fname & lname
-				strcpy_s(_Record.lName, line.c_str());
+				strcpy(_Record.lName, line.c_str());
 			}
 			else if (!_Record.fName[0]) { //Assume second and third output from string is fname & lname
-				strcpy_s(_Record.fName, line.c_str());
+				strcpy(_Record.fName, line.c_str());
 			}
 			else if (line == "PT" || line == "FT") { //Asume fourth output is Status
 				if (line == "PT") {
@@ -75,10 +82,10 @@ void Readfile() {
 					else {
 						while (getline(iss, temptoken, ' ')) { //for each whitespace 
 							if (_Record.Subjects[i][0] == '\0') {	//do subject name first
-								strcpy_s(_Record.Subjects[i], temptoken.c_str()); //Split result into tokens
+								strcpy(_Record.Subjects[i], temptoken.c_str()); //Split result into tokens
 							}
 							else {	//subject mark second
-								_Record.Grade[i] = stoi(temptoken);
+								_Record.Grade[i] = atoi(temptoken.c_str());
 							}
 						}
 						break;
@@ -110,7 +117,7 @@ void PrintRecord(int index) {
 	for (int j = 0; j <= 3; j++) { //check all indexs
 		if (School[index].Subjects[j]) {
 			_tmp += "\t" + string(School[index].Subjects[j]);
-			if (School[index].Grade[j] != 0){_tmpG += "\t" + to_string(School[index].Grade[j]); }
+			if (School[index].Grade[j] != 0){_tmpG += "\t" + School[index].Grade[j]; }
 			
 		}
 	}
@@ -124,7 +131,7 @@ void ShowRecords() {
 
 		string input;
 		cin >> input;
-		transform(input.begin(), input.end(), input.begin(), tolower);	//transform input into lowercase
+		//transform(input.begin(), input.end(), input.begin(), tolower);	//transform input into lowercase
 		cout << endl;
 		do {
 			if (input == "y" && input.length() == 1) {
@@ -135,7 +142,7 @@ void ShowRecords() {
 			}
 			else {
 				cin >> input;
-				transform(input.begin(), input.end(), input.begin(), tolower);
+				//transform(input.begin(), input.end(), input.begin(), tolower);
 			}
 
 		} while (input != "y" || input != "n");
@@ -167,14 +174,15 @@ void WriteData() {
 	cout << "++++++++++++++++++++++++++++++++++++++++++++++" << endl;
 }
 void AddRecord() {
-cout << "++++++++++++++++++++++++++++++++++++++++++++++" << endl;
-cout << "\t  Add Record to Database " << endl;
-cout << "++++++++++++++++++++++++++++++++++++++++++++++" << endl;
 
-Record _tmp;
+	cout << "++++++++++++++++++++++++++++++++++++++++++++++" << endl;
+	cout << "\t  Add Record to Database " << endl;
+	cout << "++++++++++++++++++++++++++++++++++++++++++++++" << endl;
+
+Record _tmp = {};
 for (;;) { //Student Number Input and validation
 	cout << "Student Number: ";
-	if (cin >> _tmp.ID && to_string(_tmp.ID).length() == 8) {
+	if (cin >> _tmp.ID && _tmp.ID >= 10000000 && _tmp.ID <= 99999999) {
 		break;
 	}
 	else {
@@ -190,9 +198,9 @@ for (;;) {// Student First name
 		if (_tmpName.npos == _tmpName.find_first_of("0123456789") && _tmpName.length() <= 20) { //fits into char [19] and doesn't contain a number
 			char _tmpUpper = toupper(_tmpName.at(0));	//Should've just got input as char array not string
 			char _combined[19] = {};
-			strcpy_s(_combined, _tmpName.c_str());
+			strcpy(_combined, _tmpName.c_str());
 			_combined[0] = _tmpUpper;
-			strcpy_s(_tmp.fName, _combined);
+			strcpy(_tmp.fName, _combined);
 			break;
 		}
 		goto falseflag;
@@ -212,9 +220,9 @@ for (;;) {// Student  Last name
 
 			char _tmpUpper = toupper(_tmpName.at(0));	//Should've just got input as char array not string
 			char _combined[19] = {};
-			strcpy_s(_combined, _tmpName.c_str());
+			strcpy(_combined, _tmpName.c_str());
 			_combined[0] = _tmpUpper;
-			strcpy_s(_tmp.lName, _combined);
+			strcpy(_tmp.lName, _combined);
 
 			break;
 		}
@@ -259,16 +267,16 @@ do {
 		try {
 			while (getline(iss, temptoken, ' ')) {											//for each whitespace 				
 				if (temptoken.length() == 7) {												//Assume subject code
-					transform(temptoken.begin(), temptoken.end(), temptoken.begin(), toupper);
-					strcpy_s(_tmp.Subjects[current], temptoken.c_str());
+					//transform(temptoken.begin(), temptoken.end(), temptoken.begin(), toupper);
+					strcpy(_tmp.Subjects[current], temptoken.c_str());
 					continue;																//prevent exception of testing subject name to int
 				}
 				if (atoi(temptoken.c_str()) >= 0 && atoi(temptoken.c_str()) <= 100) {		//Assume grade
-					_tmp.Grade[current] = stoi(temptoken);
+					_tmp.Grade[current] = atoi(temptoken.c_str());
 						current++;
 				}
 				}
-			} catch (exception) {
+			} catch (exception){ 
 				cout << "Please enter a valid Subject and Grade" << endl;
 			}
 		}
@@ -286,7 +294,7 @@ void SearchData() {
 	cin >> input;
 	bool check = false;
 	for (int i = 0; i <= CurrentRecords; i++) {
-		if (stoi(input) == School[i].ID){			//Lets just go with the whole 'assume everything is correct' style. :)
+		if (atoi(input.c_str()) == School[i].ID){			//Lets just go with the whole 'assume everything is correct' style. :)
 			PrintRecord(i);
 			check = true;
 		}
@@ -295,4 +303,5 @@ void SearchData() {
 		cout << "Unable to find record requested" << endl;
 	}
 }
+
 

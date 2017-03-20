@@ -3,13 +3,13 @@
 *    Contains main + UI for student DB program		*
 *    Christopher Aldous, 5096054, 21/3/17		    *
 ****************************************************/
-#define _CRT_SECURE_NO_DEPRECATE	//needed to avoid security calls in Visual studio for 		FILE *fp = freopen("input.txt", "r", stdin);
 #include <iostream>
 #include <fstream>
-#include <cstring>
-#include <cstdio>
+#include <sstream>
+#include <algorithm>
 #include <cctype>
 #include "SourceH.h"
+
 using namespace std;
 
 char MainMenu();
