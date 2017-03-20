@@ -1,3 +1,9 @@
+/****************************************************
+*    main.cpp - CSCI251 Ass1 - Atm2017				*
+*    Contains main + UI for student DB program		*
+*    Christopher Aldous, 5096054, 21/3/17		    *
+****************************************************/
+#define _CRT_SECURE_NO_DEPRECATE	//needed to avoid security calls in Visual studio for 		FILE *fp = freopen("input.txt", "r", stdin);
 #include <iostream>
 #include <fstream>
 #include <cstring>
@@ -10,6 +16,16 @@ char MainMenu();
 
 int main() {
 
+	// Option for redirecting input from input.txt 
+	// Use this when you demo your program to your 
+	// tutor as explained on page 4 of the Ass1 specs.
+	char RedirectInput[20];
+	cout << "Redirect input? (y/n): ";
+	cin.getline(RedirectInput, 20);
+	if (RedirectInput[0] == 'y') { // then get input from input.txt...
+		FILE *fp = freopen("input.txt", "r", stdin);
+		if (fp == NULL) { cerr << "\"input.txt\" not found!\n"; exit(1); }
+	}
 
 	bool Exit = false;
 	do {
@@ -33,9 +49,12 @@ int main() {
 			default :
 				cerr << "Invalid request\n";
 		}
+
 	} while (!Exit);
 
-
+	cout << "Thank you for using the student records database" << endl;
+	if (RedirectInput[0] == 'y') fclose(stdin);    // close redirected input from input.txt
+	return 0;
 
 }
 
